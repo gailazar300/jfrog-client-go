@@ -207,17 +207,26 @@ func WildcardPathToRegExp(localPath string) string {
 func antPatternToRegExp(localPath string) string {
 	localPath = replaceSpecialChars(localPath)
 	var wildcard = ".*"
-	var antAsteriskToRegExp = "([^/]*)"
+	slash := getSlashAccordingToOS()
+	var antAsteriskToRegExp = "([^" + slash + "]*)"
 	// `?` => `.{1}` : `?` matches one character.
 	localPath = strings.Replace(localPath, `?`, ".{1}", -1)
 	// `*` => `([^/]*)` : `*` matches zero or more characters except from `/`.
 	localPath = strings.Replace(localPath, `*`, antAsteriskToRegExp, -1)
 	// `**/` => `(.*/)?` : `**` matches zero or more 'directories' in a path.
-	localPath = strings.Replace(localPath, antAsteriskToRegExp+antAsteriskToRegExp+`/`, "(.*/)?", -1)
+	localPath = strings.Replace(localPath, antAsteriskToRegExp+antAsteriskToRegExp+slash, "(.*"+slash+")?", -1)
 	if strings.HasSuffix(localPath, "/") || strings.HasSuffix(localPath, "\\") {
 		localPath += wildcard
 	}
 	return "^" + localPath + "$"
+}
+
+func getSlashAccordingToOS() string {
+	var slash = "/"
+	if IsWindows() {
+		slash = "\\"
+	}
+	return slash
 }
 
 func replaceSpecialChars(path string) string {
