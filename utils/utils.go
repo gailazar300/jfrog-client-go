@@ -224,7 +224,7 @@ func antPatternToRegExp(localPath string) string {
 func getSlashAccordingToOS() string {
 	var slash = "/"
 	if IsWindows() {
-		slash = "\\"
+		slash = "\\\\"
 	}
 	return slash
 }
