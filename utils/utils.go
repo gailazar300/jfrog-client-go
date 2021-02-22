@@ -209,6 +209,9 @@ func antPatternToRegExp(localPath string) string {
 	var wildcard = ".*"
 	slash := getSlashAccordingToOS()
 	var antAsteriskToRegExp = "([^" + slash + "]*)"
+	if IsWindows() {
+		antAsteriskToRegExp = "([^" + slash + slash + "]*)"
+	}
 	// `?` => `.{1}` : `?` matches one character.
 	localPath = strings.Replace(localPath, `?`, ".{1}", -1)
 	// `*` => `([^/]*)` : `*` matches zero or more characters except from `/`.
@@ -224,7 +227,7 @@ func antPatternToRegExp(localPath string) string {
 func getSlashAccordingToOS() string {
 	var slash = "/"
 	if IsWindows() {
-		slash = "\\\\"
+		slash = "\\"
 	}
 	return slash
 }
