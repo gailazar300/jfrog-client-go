@@ -196,7 +196,7 @@ func TestAntPathToRegExp(t *testing.T) {
 		filepath.Join("test", "aa", "b.zip"),
 		filepath.Join("test", "aa", "bc.zip"),
 	}
-	s := getFileSeparator()
+	s := GetFileSeparator()
 	tests := []struct {
 		name               string
 		antPattern         string
