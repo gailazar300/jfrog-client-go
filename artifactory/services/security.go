@@ -17,7 +17,6 @@ import (
 )
 
 const tokenPath = "api/security/token"
-const APIKeyPath = "api/security/apiKey"
 
 type SecurityService struct {
 	client     *jfroghttpclient.JfrogHttpClient
